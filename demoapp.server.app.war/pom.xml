@@ -4,25 +4,25 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.bsiag.anagnostes</groupId>
-    <artifactId>demoapp</artifactId>
+    <groupId>com.bsiag</groupId>
+    <artifactId>anagnostes</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <relativePath>../demoapp/pom.xml</relativePath>
+    <relativePath>../anagnostes/pom.xml</relativePath>
   </parent>
 
-  <artifactId>demoapp.server.app.war</artifactId>
+  <artifactId>anagnostes.server.app.war</artifactId>
   <packaging>war</packaging>
 
   <name>Anagnostes Server WAR</name>
 
   <build>
-      <finalName>com.bsiag.anagnostes.demoapp.server</finalName>
+      <finalName>com.bsiag.anagnostes.server</finalName>
   </build>
 
   <dependencies>
     <dependency>
-      <groupId>com.bsiag.anagnostes</groupId>
-      <artifactId>demoapp.server</artifactId>
+      <groupId>com.bsiag</groupId>
+      <artifactId>anagnostes.server</artifactId>
     </dependency>
   </dependencies>
 </project>

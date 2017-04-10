@@ -5,13 +5,13 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.bsiag.anagnostes</groupId>
-		<artifactId>demoapp</artifactId>
+		<groupId>com.bsiag</groupId>
+		<artifactId>anagnostes</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
-		<relativePath>../demoapp/pom.xml</relativePath>
+		<relativePath>../anagnostes/pom.xml</relativePath>
 	</parent>
 
-	<artifactId>demoapp.server</artifactId>
+	<artifactId>anagnostes.server</artifactId>
 
 	<name>Anagnostes Server</name>
 
@@ -21,8 +21,8 @@
 			<groupId>org.eclipse.scout.rt</groupId>
 		</dependency>
 		<dependency>
-			<groupId>com.bsiag.anagnostes</groupId>
-			<artifactId>demoapp.shared</artifactId>
+			<groupId>com.bsiag</groupId>
+			<artifactId>anagnostes.shared</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.scout.rt</groupId>

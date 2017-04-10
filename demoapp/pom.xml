@@ -10,26 +10,26 @@
     <relativePath></relativePath>
   </parent>
 
-  <groupId>com.bsiag.anagnostes</groupId>
-  <artifactId>demoapp</artifactId>
+  <groupId>com.bsiag</groupId>
+  <artifactId>anagnostes</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Anagnostes Parent Module</name>
 
   <properties>
-    <com.bsiag.anagnostes.demoapp.version>${project.version}</com.bsiag.anagnostes.demoapp.version>
+    <com.bsiag.anagnostes.version>${project.version}</com.bsiag.anagnostes.version>
     <jdk.source.version>1.8</jdk.source.version>
     <org.eclipse.scout.rt.version>6.1.0.M5</org.eclipse.scout.rt.version>
   </properties>
 
   <modules>
-    <module>../demoapp.shared</module>
-    <module>../demoapp.server</module>
-    <module>../demoapp.client</module>
-    <module>../demoapp.server.app.war</module>
-    <module>../demoapp.ui.html</module>
-    <module>../demoapp.ui.html.app.war</module>
+    <module>../anagnostes.shared</module>
+    <module>../anagnostes.server</module>
+    <module>../anagnostes.client</module>
+    <module>../anagnostes.server.app.war</module>
+    <module>../anagnostes.ui.html</module>
+    <module>../anagnostes.ui.html.app.war</module>
   </modules>
 
   <dependencyManagement>
@@ -45,24 +45,24 @@
 
       <!-- Application Dependencies -->
       <dependency>
-        <groupId>com.bsiag.anagnostes</groupId>
-        <artifactId>demoapp.client</artifactId>
-        <version>${com.bsiag.anagnostes.demoapp.version}</version>
+        <groupId>com.bsiag</groupId>
+        <artifactId>anagnostes.client</artifactId>
+        <version>${com.bsiag.anagnostes.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.bsiag.anagnostes</groupId>
-        <artifactId>demoapp.shared</artifactId>
-        <version>${com.bsiag.anagnostes.demoapp.version}</version>
+        <groupId>com.bsiag</groupId>
+        <artifactId>anagnostes.shared</artifactId>
+        <version>${com.bsiag.anagnostes.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.bsiag.anagnostes</groupId>
-        <artifactId>demoapp.server</artifactId>
-        <version>${com.bsiag.anagnostes.demoapp.version}</version>
+        <groupId>com.bsiag</groupId>
+        <artifactId>anagnostes.server</artifactId>
+        <version>${com.bsiag.anagnostes.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.bsiag.anagnostes</groupId>
-        <artifactId>demoapp.ui.html</artifactId>
-        <version>${com.bsiag.anagnostes.demoapp.version}</version>
+        <groupId>com.bsiag</groupId>
+        <artifactId>anagnostes.ui.html</artifactId>
+        <version>${com.bsiag.anagnostes.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
