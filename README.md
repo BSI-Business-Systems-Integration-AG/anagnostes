@@ -6,6 +6,8 @@ Anagnostes is an [Eclipse Scout](http://www.eclipse.org/scout/) application that
 
 The neural network was implemented with the [Deeplearning4j](https://deeplearning4j.org/) framework and was parametrized like the [LeNet Mnist example](https://github.com/deeplearning4j/dl4j-examples/blob/master/dl4j-examples/src/main/java/org/deeplearning4j/examples/convolution/LenetMnistExample.java) of deeplearning4j. Since the Mnist data set contains mostly digits in a northern american writing style, we created an [own training and test set](https://github.com/kensanata/numbers) to better suite the digits used on a swiss payment slip.
 
+![Screenshot](/doc/screenshot_02.png)
+
 ## Neural Network
 
 ```java
