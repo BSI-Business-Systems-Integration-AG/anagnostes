@@ -58,6 +58,11 @@ new NeuralNetConfiguration.Builder()
    .backprop(true)
    .pretrain(false).build();
 ```
+## GUI
+
+The user interface of anagnostes is implemented with [Eclipse Scout](http://www.eclipse.org/scout/). The GUI displays a swiss payment slip with 10 handwritten digits. For each digit the MNIST-transformend image is shown together with the recognized character and the confidence with which the character was identified.
+
+In the console output, the complete output of the neural network is printed. The output vector of the network contains the likelyhood of each possible character (numbers 0 to 9). All likelyhood values of one output vector summed up result to 1.
 
 ## Related Projects
 * [Eclipse Scout](http://www.eclipse.org/scout/)
