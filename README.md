@@ -4,7 +4,7 @@
 ## Introduction
 Anagnostes is an [Eclipse Scout](http://www.eclipse.org/scout/) application that uses a convolutional neural network for human character recognition. As an example use case, the application analyzes handwritten numbers on a swiss payment slip. 
 
-The neural network was implemented with the [Deeplearning4j](https://deeplearning4j.org/) framework and was parametrized like the [LeNet Mnist example](https://github.com/deeplearning4j/dl4j-examples/blob/master/dl4j-examples/src/main/java/org/deeplearning4j/examples/convolution/LenetMnistExample.java) of deeplearning4j. Since the Mnist data set contains mostly digits in a northern american writing style, we created an [own training and test set](https://github.com/kensanata/numbers) to better suite the digits used on a swiss payment slip.
+The neural network was implemented with the [Deeplearning4j](https://deeplearning4j.org/) framework and was parametrized like the [LeNet MNIST example](https://github.com/deeplearning4j/dl4j-examples/blob/master/dl4j-examples/src/main/java/org/deeplearning4j/examples/convolution/LenetMnistExample.java) of deeplearning4j. Since the MNIST data set contains mostly digits in a northern american writing style, we created an [own training and test set](https://github.com/kensanata/numbers) to better suite the digits used on a swiss payment slip.
 
 ![Screenshot](/doc/screenshot_02.png)
 ***Screenshot of Anagnostes:***
@@ -27,6 +27,8 @@ To format the raw images of the digites into the MNIST format, thw following ste
 3. The actual digit is centered and scaled in the image
 
 ## Neural Network
+
+For our example, we used the same structure of the neural network as the one described in [Gradient-Based Learning Applied to Document Recognition](http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf). This structure was already modeled in the  [LeNet MNIST example](https://github.com/deeplearning4j/dl4j-examples/blob/master/dl4j-examples/src/main/java/org/deeplearning4j/examples/convolution/LenetMnistExample.java) of the [Deeplearning4j](https://deeplearning4j.org/) Project. The configuration of the network looks like the following code snipped:
 
 ```java
 new NeuralNetConfiguration.Builder()
