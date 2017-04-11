@@ -10,6 +10,21 @@ The neural network was implemented with the [Deeplearning4j](https://deeplearnin
 ***Screenshot of Anagnostes:***
 *The fourth digit was recognized as 6 with a low confidence (the output of the neural network for this digit was: 0: 0.392, 1: 0.000, 2: 0.000, 3: 0.000, 4: 0.004, 5: 0.000, 6: 0.602, 7: 0.000, 8: 0.001, 9: 0.000)*
 
+## Test Data
+
+To collect the test data, we asked 21 people - mostly Swiss residents - to hand copy a page of 600 machine printed digits. 
+The hand written pages where then scaned and cut into single images for each digit. These images are stored in a 
+folder structure so that information about character in the image and the writer (age in decades, origin (country), and gender) are available.
+
+The images of 19 people were used to train the neural network and the images of two people were used as test set.
+
+## Image processing
+
+Before the images are fed to the neural network we transformed the images into the same format as the [MNIST database of handwritten digits](http://yann.lecun.com/exdb/mnist/). 
+To format the raw images of the digites into the MNIST format, thw following steps are performed:
+1. The image is resized to 28x28 Pixels
+2. The image is reduced to greyscale
+3. The actual digit is centered and scaled in the image
 
 ## Neural Network
 
