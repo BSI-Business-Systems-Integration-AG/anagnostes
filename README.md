@@ -2,9 +2,9 @@
 "ἀναγνώστης a reader, one who reads aloud (Lat. lector): noster." -- [Charlton T. Lewis, An Elementary Latin Dictionary](http://www.perseus.tufts.edu/hopper/text?doc=Perseus:text:1999.04.0060:entry=anagnostes)
 
 ## Introduction
-Anagnostes is an [Eclipse Scout](http://www.eclipse.org/scout/) application that uses a convolutional neural network for human character recognition. As an example use case, the application analyzes handwritten numbers on a swiss payment slip. 
+Anagnostes is an [Eclipse Scout](http://www.eclipse.org/scout/) application that uses a convolutional neural network for human character recognition. As an example use case, the application analyzes handwritten numbers on a Swiss payment slip. 
 
-The neural network was implemented with the [Deeplearning4j](https://deeplearning4j.org/) framework and was parametrized like the [LeNet MNIST example](https://github.com/deeplearning4j/dl4j-examples/blob/master/dl4j-examples/src/main/java/org/deeplearning4j/examples/convolution/LenetMnistExample.java) of deeplearning4j. Since the MNIST data set contains mostly digits in a northern american writing style, we created an [own training and test set](https://github.com/kensanata/numbers) to better suite the digits used on a swiss payment slip.
+The neural network was implemented using the [Deeplearning4j](https://deeplearning4j.org/) framework and parametrized like the [LeNet MNIST example](https://github.com/deeplearning4j/dl4j-examples/blob/master/dl4j-examples/src/main/java/org/deeplearning4j/examples/convolution/LenetMnistExample.java) of Deeplearning4j. Since the MNIST data set contains mostly digits in a North American writing style, we created our [own training and test set](https://github.com/kensanata/numbers) to better suite the digits used on a Swiss payment slip.
 
 ![Screenshot](/doc/screenshot_02.png)
 ***Screenshot of Anagnostes:***
@@ -12,19 +12,20 @@ The neural network was implemented with the [Deeplearning4j](https://deeplearnin
 
 ## Test Data
 
-To collect the test data, we asked 21 people - mostly Swiss residents - to hand copy a page of 600 machine printed digits. 
-The hand written pages where then scaned and cut into single images for each digit. These images are stored in a 
-folder structure so that information about character in the image and the writer (age in decades, origin (country), and gender) are available.
+To collect the [test data](https://github.com/kensanata/numbers), we asked 21 people – mostly Swiss residents – to hand copy a page of 600 machine printed digits. 
+The hand written pages where then scanned and cut into one image per digit. These images are stored in a 
+folder structure so that information about the digit and the author (age rounded to the nearest decade, country of origin, gender) are available.
 
 The images of 19 people were used to train the neural network and the images of two people were used as test set.
 
 ## Image processing
 
-Before the images are fed to the neural network we transformed the images into the same format as the [MNIST database of handwritten digits](http://yann.lecun.com/exdb/mnist/). 
-To format the raw images of the digites into the MNIST format, thw following steps are performed:
-1. The image is resized to 28x28 Pixels
-2. The image is reduced to greyscale
-3. The actual digit is centered and scaled in the image
+Before the images are fed to the neural network we transform the images into the same format as used in the [MNIST database of handwritten digits](http://yann.lecun.com/exdb/mnist/). 
+The following steps are performed:
+
+1. apply [Otsu's method](https://en.wikipedia.org/wiki/Otsu%27s_method) to threshold the image
+2. scale to fit into a 20x20 pixel box while preserving the aspect ratio; this gives us a grayscale image because of anti-aliasing
+3. center image using center of gravity in a 28x28 pixel box
 
 ## Neural Network
 
@@ -60,9 +61,9 @@ new NeuralNetConfiguration.Builder()
 ```
 ## GUI
 
-The user interface of anagnostes is implemented with [Eclipse Scout](http://www.eclipse.org/scout/). The GUI displays a swiss payment slip with 10 handwritten digits. For each digit the MNIST-transformend image is shown together with the recognized character and the confidence with which the character was identified.
+The user interface of anagnostes is implemented using [Eclipse Scout](http://www.eclipse.org/scout/). The GUI displays a Swiss payment slip with 10 handwritten digits. For each digit the MNIST-transformed image is shown together with the recognized digit and the confidence with which it was identified.
 
-In the console output, the complete output of the neural network is printed. The output vector of the network contains the likelyhood of each possible character (numbers 0 to 9). All likelyhood values of one output vector summed up result to 1.
+In the console, the complete output of the neural network is printed. The output vector of the network contains the likelihood for each possible digit. The sum of all values in the output vector is equal to one.
 
 ## Related Projects
 * [Eclipse Scout](http://www.eclipse.org/scout/)
