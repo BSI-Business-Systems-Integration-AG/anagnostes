@@ -18,7 +18,7 @@ folder structure so that information about the digit and the author (age rounded
 
 The images of 19 people were used to train the neural network and the images of two people were used as test set.
 
-## Image processing
+## Image Processing
 
 Before the images are fed to the neural network we transform the images into the same format as used in the [MNIST database of handwritten digits](http://yann.lecun.com/exdb/mnist/). 
 The following steps are performed:
