@@ -11,3 +11,4 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+.flattened-pom.xml
