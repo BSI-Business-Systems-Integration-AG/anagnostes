@@ -33,6 +33,7 @@ import java.io.File;
 import org.eclipse.scout.rt.testing.platform.runner.RunWithSubject;
 import org.eclipse.scout.rt.testing.server.runner.RunWithServerSession;
 import org.eclipse.scout.rt.testing.server.runner.ServerTestRunner;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -71,6 +72,7 @@ public class HcrServiceTest {
 	}
 
 	@Test
+	@Ignore
 	public void buildAndTrainNumbers() {
 		NeuralNetwork model = new NeuralNetwork.Builder().leNetConfiguration().numbersTrainSetIterator()
 				.numbersTestSetIterator().epochs(6).build();
@@ -80,6 +82,7 @@ public class HcrServiceTest {
 	}
 
 	@Test
+	@Ignore
 	public void buildAndTrainMnist() {
 		NeuralNetwork model = new NeuralNetwork.Builder().leNetConfiguration().mnistTrainSetIterator()
 				.mnistTestSetIterator().epochs(15).build();

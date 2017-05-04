@@ -1,28 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>com.bsiag</groupId>
-    <artifactId>anagnostes</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <relativePath>../anagnostes/pom.xml</relativePath>
-  </parent>
+	<parent>
+		<groupId>com.bsiag</groupId>
+		<artifactId>anagnostes</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../anagnostes/pom.xml</relativePath>
+	</parent>
 
-  <artifactId>anagnostes.server.app.war</artifactId>
-  <packaging>war</packaging>
+	<artifactId>anagnostes.server.app.war</artifactId>
+	<packaging>war</packaging>
 
-  <name>Anagnostes Server WAR</name>
+	<name>Anagnostes Server WAR</name>
 
-  <build>
-      <finalName>com.bsiag.anagnostes.server</finalName>
-  </build>
+	<build>
+		<finalName>com.bsiag.anagnostes.server</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.basepom.maven</groupId>
+				<artifactId>duplicate-finder-maven-plugin</artifactId>
+				<configuration>
+					<ignoredDependencies>
+						<dependency>
+							<artifactId>annotations</artifactId>
+							<groupId>com.google.code.findbugs</groupId>
+							<version>2.0.1</version>
+						</dependency>
+					</ignoredDependencies>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
-  <dependencies>
-    <dependency>
-      <groupId>com.bsiag</groupId>
-      <artifactId>anagnostes.server</artifactId>
-    </dependency>
-  </dependencies>
+	<dependencies>
+		<dependency>
+			<groupId>com.bsiag</groupId>
+			<artifactId>anagnostes.server</artifactId>
+		</dependency>
+	</dependencies>
 </project>

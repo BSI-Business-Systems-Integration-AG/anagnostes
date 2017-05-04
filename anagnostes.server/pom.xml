@@ -12,8 +12,25 @@
 	</parent>
 
 	<artifactId>anagnostes.server</artifactId>
-
 	<name>Anagnostes Server</name>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.basepom.maven</groupId>
+				<artifactId>duplicate-finder-maven-plugin</artifactId>
+				<configuration>
+					<ignoredDependencies>
+						<dependency>
+							<artifactId>annotations</artifactId>
+							<groupId>com.google.code.findbugs</groupId>
+							<version>2.0.1</version>
+						</dependency>
+					</ignoredDependencies>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 	<dependencies>
 		<dependency>
@@ -34,7 +51,6 @@
 			<artifactId>javax.servlet-api</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.deeplearning4j</groupId>
 			<artifactId>deeplearning4j-core</artifactId>
@@ -51,5 +67,4 @@
 			<version>0.7.2</version>
 		</dependency>
 	</dependencies>
-
 </project>
