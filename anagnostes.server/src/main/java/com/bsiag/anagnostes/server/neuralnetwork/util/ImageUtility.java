@@ -42,7 +42,7 @@ public class ImageUtility {
 		return toImage(contrastNormalizedImageMatrix);
 	}
 
-	public static float[] transformToMnsitIteratorFormat(BufferedImage image) throws IOException {
+	public static float[] transformToMnistIteratorFormat(BufferedImage image) throws IOException {
 		// 1. binarize
 		BufferedImage binaryImage = toBinaryImage(image);
 		// 2. scale to fit into 20x20 box while preserving aspect ratio. this

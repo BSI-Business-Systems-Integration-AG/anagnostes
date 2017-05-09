@@ -20,9 +20,10 @@ import org.nd4j.linalg.lossfunctions.LossFunctions;
 public class LeNetMnistConfigurationFactory {
 	
 	public static final int NUM_OUTPUTS = 10;
+	public static final int BATCH_SIZE = 64;
+	
 	private static final int NUM_CHANNELS = 1;
 	private static final int NUM_ITERATIONS = 1;
-	private static final int BATCH_SIZE = 64;
 	private static final int SEED = 123;
 	
 	public static MultiLayerConfiguration configuration() {

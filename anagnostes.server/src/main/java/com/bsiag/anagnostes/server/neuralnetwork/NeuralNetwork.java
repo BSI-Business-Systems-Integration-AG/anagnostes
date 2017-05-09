@@ -34,76 +34,76 @@ public class NeuralNetwork {
 	private int m_epochs = 1;
 
 	public static class Builder {
-		
+
 		private NeuralNetwork m_network;
-		
+
 		public Builder() {
 			m_network = new NeuralNetwork();
 		}
-		
+
 		public Builder configuration(MultiLayerConfiguration configuration) {
 			m_network.m_model = new MultiLayerNetwork(configuration);
 			m_network.m_model.init();
 			return this;
 		}
-		
+
 		public Builder trainSetIterator(DataSetIterator trainSet) {
-			m_network.m_trainSet = trainSet;
+			m_network.setTrainSetIterator(trainSet);
 			return this;
 		}
-		
+
 		public Builder testSetIterator(DataSetIterator testSet) {
-			m_network.m_testSet = testSet;
+			m_network.setTrainSetIterator(testSet);
 			return this;
 		}
-		
+
 		public Builder leNetConfiguration() {
 			return configuration(LeNetMnistConfigurationFactory.configuration());
 		}
-		
+
 		public Builder numbersTrainDataSetIterator(String numbersBaseFolder) {
 			return trainSetIterator(LeNetMnistConfigurationFactory.numbersTrainDataSetIterator(numbersBaseFolder));
 		}
-		
+
 		public Builder numbersTrainSetIterator() {
 			return trainSetIterator(LeNetMnistConfigurationFactory.numbersTrainDataSetIterator());
 		}
-		
+
 		public Builder numbersTestDataSetIterator(String numbersBaseFolder) {
 			return testSetIterator(LeNetMnistConfigurationFactory.numbersTestDataSetIterator(numbersBaseFolder));
 		}
-		
+
 		public Builder numbersTestSetIterator() {
 			return testSetIterator(LeNetMnistConfigurationFactory.numbersTestDataSetIterator());
 		}
-		
+
 		public Builder mnistTrainSetIterator() {
 			return trainSetIterator(LeNetMnistConfigurationFactory.mnistTrainSetIterator());
 		}
-		
+
 		public Builder mnistTestSetIterator() {
 			return testSetIterator(LeNetMnistConfigurationFactory.mnistTestSetIterator());
 		}
-		
+
 		public Builder logScore() {
 			if(!m_network.isModelInitialized()) {
 				throw new RuntimeException("Model is not yet initialized. You can initialized the model first with e.g. configuration() or loadFromFile()");
 			}
-			
+
 			m_network.setListeners(new ScoreIterationListener(1));
 			return this;
 		}
-		
+
 		public Builder epochs(int epochs) {
 			m_network.m_epochs = epochs;
 			return this;
 		}
-		
+
 		public NeuralNetwork fromFile(File modelFile) {
 			m_network.loadModel(modelFile);
 			return m_network;
 		}
-		
+
 		public NeuralNetwork build() {
 			return m_network;
 		}
@@ -120,9 +120,17 @@ public class NeuralNetwork {
 	public boolean isModelInitialized() {
 		return m_model != null;
 	}
-	
+
 	public void setListeners(IterationListener iterationListener) {
 		m_model.setListeners(iterationListener);		
+	}
+
+	public void setTrainSetIterator(DataSetIterator setIterator) {
+		m_trainSet = setIterator;
+	}
+
+	public void setTestSetIterator(DataSetIterator setIterator) {
+		m_testSet = setIterator;
 	}
 
 	public void loadModel(File file) {
@@ -132,16 +140,16 @@ public class NeuralNetwork {
 			log.error("couldn't load model", e);
 		}
 	}
-	
+
 	public void train() {
 		if(m_trainSet == null) {
 			throw new RuntimeException("No train data set iterator specified");
 		}
-		
+
 		if(m_testSet == null) {
 			log.warn("No test data set iterator specified. Model will not be evaluated.");
 		}
-		
+
 		for (int i = 0; i < m_epochs; i++) {
 			m_model.fit(m_trainSet);
 			log.info("*** Completed epoch {} ***", i);
@@ -157,8 +165,10 @@ public class NeuralNetwork {
 		Evaluation eval = new Evaluation(LeNetMnistConfigurationFactory.NUM_OUTPUTS);
 		while (m_testSet.hasNext()) {
 			DataSet ds = m_testSet.next();
-			INDArray output = m_model.output(ds.getFeatureMatrix(), false);
-			eval.eval(ds.getLabels(), output);
+			if(ds.getFeatureMatrix() != null) {
+				INDArray output = m_model.output(ds.getFeatureMatrix(), false);
+				eval.eval(ds.getLabels(), output);
+			}
 		}
 		log.info(eval.stats());
 		m_testSet.reset();
@@ -167,7 +177,7 @@ public class NeuralNetwork {
 	public Output output(String fileName) {
 		return output(new File(fileName));
 	}
-	
+
 	public Output output(File imageFile) {
 		try {
 			BufferedImage image = ImageIO.read(imageFile);
@@ -176,7 +186,7 @@ public class NeuralNetwork {
 			throw new RuntimeException("Couldn't read image: " + imageFile, e);
 		}
 	}
-	
+
 	public Output output(BufferedImage image) {
 		float[] normalizeImage = normalizeImage(image);
 
@@ -187,14 +197,14 @@ public class NeuralNetwork {
 		for (int i = 0; i < LeNetMnistConfigurationFactory.NUM_OUTPUTS; i++) {
 			entries.add(new OutputEntry("" + i, output.getDouble(i)));
 		}
-		
+
 		return new Output(entries);
 	}
 
 	private float[] normalizeImage(BufferedImage image) {
 		float[] normalizedRawData;
 		try {
-			normalizedRawData = ImageUtility.transformToMnsitIteratorFormat(image);
+			normalizedRawData = ImageUtility.transformToMnistIteratorFormat(image);
 		} catch (IOException e) {
 			throw new RuntimeException("Couldn't normalize the image", e);
 		}

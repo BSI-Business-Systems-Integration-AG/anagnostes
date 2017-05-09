@@ -63,11 +63,26 @@ public class NumbersDataFetcher extends BaseDataFetcher {
 			}
 			NumberFileEntry entry = m_allFileNames.get(cursor + examplesRead);
 
-			featureData[examplesRead] = imageFileNameToMnsitFormat(entry.getFilename());
+			featureData[examplesRead] = imageFileNameToMnistFormat(entry.getFilename());
 			labelData[examplesRead] = toLabelArray(entry.getLabel());
 		}
 		cursor += examplesRead;
 
+		if(featureData.length != 64 || labelData.length != 64 || featureData.length != labelData.length) {
+			System.out.println("featureData.length: " + featureData.length);
+			System.out.println("labelData.length:   " + labelData.length);
+		}
+		
+		for(int i = 0; i < featureData.length; i++) {
+			if(featureData[i].length != 784 || labelData[i].length != 10) {
+				System.out.println("featureData["+i+"].length: " + featureData[i].length);
+				System.out.println("labelData["+i+"].length:   " + labelData[i].length);
+				
+				curr = new DataSet();
+				return;
+			}
+		}
+		
 		INDArray features = Nd4j.create(featureData);
 		INDArray labels = Nd4j.create(labelData);
 		curr = new DataSet(features, labels);
@@ -79,11 +94,11 @@ public class NumbersDataFetcher extends BaseDataFetcher {
 		return labels;
 	}
 
-	private float[] imageFileNameToMnsitFormat(String imageFileName) {
+	private float[] imageFileNameToMnistFormat(String imageFileName) {
 		BufferedImage image;
 		try {
 			image = ImageIO.read(new File(imageFileName));
-			return ImageUtility.transformToMnsitIteratorFormat(image);
+			return ImageUtility.transformToMnistIteratorFormat(image);
 		} catch (IOException e) {
 			throw new RuntimeException("Couldn't read image: " + imageFileName);
 		}

@@ -1,6 +1,7 @@
 package com.bsiag.anagnostes.server.neuralnetwork.util;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -8,18 +9,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.filefilter.RegexFileFilter;
+import org.eclipse.scout.rt.platform.config.AbstractStringConfigProperty;
+import org.eclipse.scout.rt.platform.config.CONFIG;
 
 public class NumbersUtility {
 
-	private static final String FILE_REGEX = "^number-\\d+.png$";
-	private static final String FOLDER_REGEX = "^\\d{4}_\\S{4}$";
-
+	public static final String NUMBERS_FOLDER_DEFAULT = "../numbers";
 	public static final List<String> TEST_FOLDER_NAMES = Arrays.asList("0020_CH4M", "0021_CH4M");
 	
 	public static final List<String> LABELS = Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
-	public static final String NUMBERS_FOLDER_NAME = "numbers";
-	public static final String IMG_PATH = NumbersUtility.class.getClassLoader().getResource(NUMBERS_FOLDER_NAME).getFile()
-			+ File.separator;
+	public static final String IMG_PATH = Paths.get(CONFIG.getPropertyValue(NumberFolderPath.class) + File.separator).toAbsolutePath().toString();
+	
+	private static final String FILE_REGEX = "^number-\\d+.png$";
+	private static final String FOLDER_REGEX = "^\\d{4}_\\S{4}$";
 
 	private static final Map<String, List<NumberFileEntry>> m_fileNameCache = new HashMap<>();
 	
@@ -38,6 +40,19 @@ public class NumbersUtility {
 
 		public final String getFilename() {
 			return m_fileName;
+		}
+	}
+	
+	public static class NumberFolderPath extends AbstractStringConfigProperty {
+		
+		@Override
+		public String getKey() {
+			return "number.folder.path";
+		}
+		
+		@Override
+		protected String getDefaultValue() {
+			return NUMBERS_FOLDER_DEFAULT;
 		}
 	}
 
@@ -64,17 +79,21 @@ public class NumbersUtility {
 		if(cachedList != null) {
 			return cachedList;
 		}
+		
 		List<NumberFileEntry> allFileNames = new ArrayList<>();
 		
 		for (String label : LABELS) {
-			String[] imageFileNames = new File(baseFolder + folder + File.separator + label)
-					.list(new RegexFileFilter(FILE_REGEX));
+			File imageFolder = Paths.get(baseFolder).resolve(folder).resolve(label).toFile();
+			String[] imageFileNames = imageFolder.list(new RegexFileFilter(FILE_REGEX));
+			
 			for (String imageFileName : imageFileNames) {
-				allFileNames.add(new NumberFileEntry(label,
-						baseFolder + folder + File.separator + label + File.separator + imageFileName));
+				File imageFile = new File(imageFolder, imageFileName);
+				allFileNames.add(new NumberFileEntry(label,	imageFile.getAbsolutePath()));
 			}
 		}
+		
 		m_fileNameCache.put(folder, allFileNames);
+		
 		return allFileNames;
 	}
 
