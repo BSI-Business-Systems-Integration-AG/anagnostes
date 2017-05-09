@@ -81,7 +81,9 @@ public class HcrService implements IHcrService {
 		List<BufferedImage> numberImages = new ArrayList<BufferedImage>();
 
 		for (int x : NUMBER_POSITIONS_X) {
-			BufferedImage randomNumber = ImageUtility.readImage(getRandomNumberImage(scan).getFilename());
+			String imageFileName = getRandomNumberImage(scan).getFilename();
+			log.info("reading image " + imageFileName);
+			BufferedImage randomNumber = ImageUtility.readImage(imageFileName);
 			numberImages.add(randomNumber);
 			drawNumber(paperForm, randomNumber, x, NUMBER_POSITION_Y);
 		}
