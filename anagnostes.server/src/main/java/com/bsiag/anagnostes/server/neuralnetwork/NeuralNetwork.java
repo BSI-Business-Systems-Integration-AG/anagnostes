@@ -187,6 +187,9 @@ public class NeuralNetwork {
 		}
 	}
 
+	/**
+	 * Normalizes image, performs recognition and returns the recognition result.
+	 */
 	public Output output(BufferedImage image) {
 		float[] normalizeImage = normalizeImage(image);
 
@@ -201,6 +204,9 @@ public class NeuralNetwork {
 		return new Output(entries);
 	}
 
+	/**
+	 * Normalizes the image into the MNIST format (28x28 gray scale image).
+	 */
 	private float[] normalizeImage(BufferedImage image) {
 		float[] normalizedRawData;
 		try {

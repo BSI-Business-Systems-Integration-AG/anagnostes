@@ -45,11 +45,6 @@ public class HcrService implements IHcrService {
 
 	public HcrService() {
 		loadModel(MODEL_NUMBERS_ZIP_NAME);
-//		// Load deeplearning4j libraries on application start to prevent class loader issues while loading the deeplearning4j dlls
-//		File modelFile = new File(HcrService.class.getClassLoader().getResource(MODEL_NUMBERS_ZIP_NAME).getFile());
-//		m_neuralNetwork = new NeuralNetwork.Builder().fromFile(modelFile);		
-//		m_neuralNetwork.output(ImageUtility.readImage(getRandomNumberImages(NumbersUtility.getAllFolderNames().get(0)).getFilename()));
-//		
 	}
 	
 	public void loadModel(String modelFileName) {
@@ -66,6 +61,9 @@ public class HcrService implements IHcrService {
 		return m_neuralNetwork;
 	}
 	
+	/**
+	 * Loads payment slip image, generates random amount and recognizes individual field images.
+	 */
 	@Override
 	public HcrFormData load(HcrFormData formData) throws ProcessingException {
 		String scan = formData.getScan().getValue();
@@ -76,10 +74,11 @@ public class HcrService implements IHcrService {
 		
 		log.info("Human Character Recognition for " + scan + ":");
 
+		// load payment slip image
 		BufferedImage paperForm = loadPaperForm();
 
+		// assemble images of isolated digits (render images in payment slip)
 		List<BufferedImage> numberImages = new ArrayList<BufferedImage>();
-
 		for (int x : NUMBER_POSITIONS_X) {
 			String imageFileName = getRandomNumberImage(scan).getFilename();
 			log.info("reading image " + imageFileName);
@@ -88,30 +87,37 @@ public class HcrService implements IHcrService {
 			drawNumber(paperForm, randomNumber, x, NUMBER_POSITION_Y);
 		}
 
-		setImages(formData, numberImages);
+		// recognize individual digits and update form data
+		recognizeAndRenderImages(formData, numberImages);
 
 		formData.setEsrFormImage(ImageUtility.toPngBinaryResource("Paper form", paperForm));
 		return formData;
 	}
 
-	private void setImages(HcrFormData formData, List<BufferedImage> numberImages) throws ProcessingException {
+	/**
+	 * Performs recognition of individual digits and updates form data with recognition results.
+	 */
+	private void recognizeAndRenderImages(HcrFormData formData, List<BufferedImage> numberImages) throws ProcessingException {
 		if(numberImages.size() != 10) {
 			throw new ProcessingException("need exactly 10 images!");
 		}
 		
-		setOutput(numberImages.get(0), formData.getOutput0());
-		setOutput(numberImages.get(1), formData.getOutput1());
-		setOutput(numberImages.get(2), formData.getOutput2());
-		setOutput(numberImages.get(3), formData.getOutput3());
-		setOutput(numberImages.get(4), formData.getOutput4());
-		setOutput(numberImages.get(5), formData.getOutput5());
-		setOutput(numberImages.get(6), formData.getOutput6());
-		setOutput(numberImages.get(7), formData.getOutput7());
-		setOutput(numberImages.get(8), formData.getOutput8());
-		setOutput(numberImages.get(9), formData.getOutput9());
+		recognizeAndSetOutput(numberImages.get(0), formData.getOutput0());
+		recognizeAndSetOutput(numberImages.get(1), formData.getOutput1());
+		recognizeAndSetOutput(numberImages.get(2), formData.getOutput2());
+		recognizeAndSetOutput(numberImages.get(3), formData.getOutput3());
+		recognizeAndSetOutput(numberImages.get(4), formData.getOutput4());
+		recognizeAndSetOutput(numberImages.get(5), formData.getOutput5());
+		recognizeAndSetOutput(numberImages.get(6), formData.getOutput6());
+		recognizeAndSetOutput(numberImages.get(7), formData.getOutput7());
+		recognizeAndSetOutput(numberImages.get(8), formData.getOutput8());
+		recognizeAndSetOutput(numberImages.get(9), formData.getOutput9());
 	}
-	
-	private void setOutput(BufferedImage numberImage, AbstractOutputFieldData outputField) {
+
+	/**
+	 * Preprocesses a single numeral image, recognizes the image with the neural net and updates the output fields.
+	 */
+	private void recognizeAndSetOutput(BufferedImage numberImage, AbstractOutputFieldData outputField) {
 		Output output = m_neuralNetwork.output(numberImage);
 		outputField.getOutputValue().setValue("" + output.getCharacter());
 		outputField.getConfidence().setValue(new DecimalFormat("0.000").format(output.getConfidence()));

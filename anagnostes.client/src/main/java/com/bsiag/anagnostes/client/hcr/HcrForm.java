@@ -123,6 +123,9 @@ public class HcrForm extends AbstractForm {
 	@Override
 	protected void execInitForm() {
 		reload();
+		
+		getDesktop().setNavigationVisible(false);
+		getDesktop().setHeaderVisible(false);
 	}
 
 	public void reload() {

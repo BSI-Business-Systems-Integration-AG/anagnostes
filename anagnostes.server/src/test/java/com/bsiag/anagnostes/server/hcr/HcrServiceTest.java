@@ -94,8 +94,12 @@ public class HcrServiceTest {
 	@Test
 	@Ignore
 	public void buildAndTrainMnist() {
-		NeuralNetwork model = new NeuralNetwork.Builder().leNetConfiguration().mnistTrainSetIterator()
-				.mnistTestSetIterator().epochs(15).build();
+		NeuralNetwork model = new NeuralNetwork.Builder()
+				.leNetConfiguration()
+				.mnistTrainSetIterator()
+				.mnistTestSetIterator()
+				.epochs(15)
+				.build();
 
 		model.train();
 		model.store(new File(USER_HOME + File.separator + MODEL_MNIST_ZIP_NAME));
