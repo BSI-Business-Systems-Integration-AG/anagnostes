@@ -16,17 +16,6 @@ In the console, the complete output of the neural network is printed. The output
 ***Screenshot of Anagnostes:***
 *The fourth digit was recognized as 6 with a low confidence (the output of the neural network for this digit was: 0: 0.392, 1: 0.000, 2: 0.000, 3: 0.000, 4: 0.004, 5: 0.000, 6: 0.602, 7: 0.000, 8: 0.001, 9: 0.000)*
 
-## Test Data
-
-To collect the [test data](https://github.com/kensanata/numbers), we asked 21 people – mostly Swiss residents – to hand copy a page of 600 machine printed digits. 
-
-The hand written pages where then scanned and cut into one image per digit. These images are stored in a 
-folder structure so that information about the digit and the author (age rounded to the nearest decade, country of origin, gender) are available.
-
-The images of 19 people were used to train the neural network and the images of two people were used as test set.
-
-The [test data project](https://github.com/kensanata/numbers) is open for everyone to consume and contribute. Ideally we can substantially increase the sitze of the database with data from writers across Europe and other parts of the world. Feel free to join!
-
 ## Image Processing
 
 Before the images are fed to the neural network we transform the images into the same format as used in the [MNIST database of handwritten digits](http://yann.lecun.com/exdb/mnist/). 
@@ -73,6 +62,17 @@ new NeuralNetConfiguration.Builder()
    .backprop(true)
    .pretrain(false).build();
 ```
+
+## Test Data
+
+To collect the [test data](https://github.com/kensanata/numbers), we asked 21 people – mostly Swiss residents – to hand copy a page of 600 machine printed digits. 
+
+The hand written pages where then scanned and cut into one image per digit. These images are stored in a 
+folder structure so that information about the digit and the author (age rounded to the nearest decade, country of origin, gender) are available.
+
+The images of 19 people were used to train the neural network and the images of two people were used as test set.
+
+The [test data project](https://github.com/kensanata/numbers) is open for everyone to consume and contribute. Ideally we can substantially increase the sitze of the database with data from writers across Europe and other parts of the world. Feel free to join!
 
 ## Clone the Project and Import it into the Eclipse IDE
 
