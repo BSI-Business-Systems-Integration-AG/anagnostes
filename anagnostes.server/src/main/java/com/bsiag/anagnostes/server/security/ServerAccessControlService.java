@@ -21,7 +21,6 @@ public class ServerAccessControlService extends AccessControlService {
 		Permissions permissions = new Permissions();
 		permissions.add(new RemoteServiceAccessPermission("*.shared.*", "*"));
 
-		// TODO [cbu]: Fill access control service
 		permissions.add(new AllPermission());
 		return permissions;
 	}

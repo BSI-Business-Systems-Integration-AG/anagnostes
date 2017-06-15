@@ -17,7 +17,7 @@ import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
 
-public class LeNetMnistConfigurationFactory {
+public class LeNet {
 	
 	public static final int NUM_OUTPUTS = 10;
 	public static final int BATCH_SIZE = 64;
@@ -37,7 +37,7 @@ public class LeNetMnistConfigurationFactory {
 	 * grayscale (nChannels=1) images, in a "flattened" row vector format (i.e., 1x784 vectors), hence the
 	 * "convolutionalFlat" input type used here.
 	 */
-	public static MultiLayerConfiguration configuration() {
+	public static MultiLayerConfiguration networkConfiguration() {
 		return new NeuralNetConfiguration.Builder()
 				.seed(SEED).weightInit(WeightInit.XAVIER)
 				.iterations(NUM_ITERATIONS)
@@ -92,19 +92,19 @@ public class LeNetMnistConfigurationFactory {
 		}
 	}
 	
-	public static DataSetIterator numbersTrainDataSetIterator(String numbersBaseFolder) {
+	public static DataSetIterator numbersTrainSetIterator(String numbersBaseFolder) {
 		return new NumbersDatasetIterator(BATCH_SIZE, numbersBaseFolder, true);
 	}
 	
-	public static DataSetIterator numbersTrainDataSetIterator() {
+	public static DataSetIterator numbersTrainSetIterator() {
 		return new NumbersDatasetIterator(BATCH_SIZE, true);
 	}
 	
-	public static DataSetIterator numbersTestDataSetIterator(String numbersBaseFolder) {
+	public static DataSetIterator numbersTestSetIterator(String numbersBaseFolder) {
 		return new NumbersDatasetIterator(BATCH_SIZE, numbersBaseFolder, false);
 	}
 	
-	public static DataSetIterator numbersTestDataSetIterator() {
+	public static DataSetIterator numbersTestSetIterator() {
 		return new NumbersDatasetIterator(BATCH_SIZE, false);
 	}
 }

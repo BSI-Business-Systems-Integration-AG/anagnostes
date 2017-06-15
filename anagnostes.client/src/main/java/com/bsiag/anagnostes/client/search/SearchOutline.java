@@ -21,8 +21,7 @@ public class SearchOutline extends AbstractSearchOutline {
 
 	@Override
 	protected void execSearch(final String query) {
-		LOG.info("Search started");
-		// TODO [cbu]: Implement search
+		LOG.warn("Search not implemented yet");
 	}
 
 	@Override

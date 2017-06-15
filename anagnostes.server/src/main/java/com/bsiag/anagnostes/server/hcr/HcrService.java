@@ -10,6 +10,7 @@ import java.util.Random;
 
 import org.eclipse.scout.rt.platform.CreateImmediately;
 import org.eclipse.scout.rt.platform.exception.ProcessingException;
+import org.eclipse.scout.rt.platform.resource.BinaryResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,11 +49,11 @@ public class HcrService implements IHcrService {
 	}
 	
 	public void loadModel(String modelFileName) {
-		log.info(String.format("loading trained network from file '%s'", MODEL_NUMBERS_ZIP_NAME));
+		log.info(String.format("loading trained network from file '%s'", modelFileName));
 		
 		File modelFile = new File(HcrService.class.getClassLoader().getResource(modelFileName).getFile());
-		m_neuralNetwork = new NeuralNetwork.Builder().fromFile(modelFile);
-		m_neuralNetwork.output(ImageUtility.readImage(getRandomNumberImages(NumbersUtility.getAllFolderNames().get(0)).getFilename()));
+		m_neuralNetwork = new NeuralNetwork(modelFile);
+		m_neuralNetwork.recognize(ImageUtility.readImage(getRandomNumberImages(NumbersUtility.getAllFolderNames().get(0)).getFilename()));
 		
 		log.info("trained network successfully loaded");
 	}
@@ -90,8 +91,12 @@ public class HcrService implements IHcrService {
 		// recognize individual digits and update form data
 		recognizeAndRenderImages(formData, numberImages);
 
-		formData.setEsrFormImage(ImageUtility.toPngBinaryResource("Paper form", paperForm));
+		formData.setEsrFormImage(toBinaryResource("Paper form", paperForm));
 		return formData;
+	}
+	
+	private BinaryResource toBinaryResource(String name, BufferedImage image) {
+		return new BinaryResource(name, ImageUtility.toPngByteArray(image));	
 	}
 
 	/**
@@ -118,13 +123,13 @@ public class HcrService implements IHcrService {
 	 * Preprocesses a single numeral image, recognizes the image with the neural net and updates the output fields.
 	 */
 	private void recognizeAndSetOutput(BufferedImage numberImage, AbstractOutputFieldData outputField) {
-		Output output = m_neuralNetwork.output(numberImage);
+		Output output = m_neuralNetwork.recognize(numberImage);
 		outputField.getOutputValue().setValue("" + output.getCharacter());
 		outputField.getConfidence().setValue(new DecimalFormat("0.000").format(output.getConfidence()));
 		
 		BufferedImage mnistImage = ImageUtility.transformToMnistFormat(numberImage);
 		BufferedImage resizedImage = ImageUtility.resize(mnistImage, 84, 84);
-		outputField.setImage(ImageUtility.toPngBinaryResource("Number", resizedImage));
+		outputField.setImage(toBinaryResource("Number", resizedImage));
 		
 		log.info(output.toString());
 	}

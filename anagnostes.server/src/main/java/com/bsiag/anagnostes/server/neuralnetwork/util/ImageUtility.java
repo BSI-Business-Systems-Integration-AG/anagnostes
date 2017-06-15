@@ -11,12 +11,13 @@ import java.math.MathContext;
 
 import javax.imageio.ImageIO;
 
-import org.eclipse.scout.rt.platform.BEANS;
-import org.eclipse.scout.rt.platform.exception.ExceptionHandler;
-import org.eclipse.scout.rt.platform.resource.BinaryResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ImageUtility {
 
+	private static final Logger log = LoggerFactory.getLogger(ImageUtility.class);
+	
 	private static final String PMG_IMAGE_FORMAT = "png";
 	private static final int SCALE_TARGET_SIZE_X = 20;
 	private static final int SCALE_TARGET_SIZE_Y = SCALE_TARGET_SIZE_X;
@@ -155,8 +156,9 @@ public class ImageUtility {
 		try {
 			return ImageIO.read(new File(imageName));
 		} catch (Exception e) {
-			BEANS.get(ExceptionHandler.class).handle(e);
+			log.error("Failed to load image from file {}. Exception {}: ", imageName, e);
 		}
+		
 		return new BufferedImage(0, 0, 0);
 	}
 
@@ -208,8 +210,8 @@ public class ImageUtility {
 		ImageIO.write(newImage, PMG_IMAGE_FORMAT, outputfile);
 	}
 
-	public static void outputPngFile(String filename, float[] mnsitFormat) throws IOException {
-		outputPngFile(filename, toBufferedImage(mnsitFormat));
+	public static void outputPngFile(String filename, float[] mnistFormat) throws IOException {
+		outputPngFile(filename, toBufferedImage(mnistFormat));
 	}
 
 	public static byte[] toPngByteArray(BufferedImage image) {
@@ -221,13 +223,9 @@ public class ImageUtility {
 			imageInByte = baos.toByteArray();
 			baos.close();
 		} catch (IOException e) {
-			BEANS.get(ExceptionHandler.class).handle(e);
+			log.error("Failed to convert buffered image to byte array: {}", e);
 		}
 		return imageInByte;
-	}
-	
-	public static BinaryResource toPngBinaryResource(String filename, BufferedImage image) {
-		return new BinaryResource(filename, toPngByteArray(image));
 	}
 
 	private static BufferedImage toBufferedImage(float[] mnsitFormat) {
@@ -244,13 +242,13 @@ public class ImageUtility {
 		for (int i = 0; i < intarray.length; i++) {
 			for (int j = 0; j < intarray[0].length; j++) {
 				int index = intarray.length * i + j;
-				doublearray[index] = toMnsitFormat(intarray[j][i]);
+				doublearray[index] = toMnistFormat(intarray[j][i]);
 			}
 		}
 		return doublearray;
 	}
 
-	private static float toMnsitFormat(int rgb) {
+	private static float toMnistFormat(int rgb) {
 		return (255.0F - rgb) / 255.0F;
 	}
 
