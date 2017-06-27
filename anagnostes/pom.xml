@@ -23,7 +23,7 @@
 		<jdk.source.version>1.8</jdk.source.version>
 		<jdk.min.version>1.8</jdk.min.version>
 		<org.eclipse.scout.rt.version>7.0.0.008_Oxygen</org.eclipse.scout.rt.version>
-		<org.deeplearning4j.version>0.8.0</org.deeplearning4j.version>
+		<org.deeplearning4j.version>0.7.2</org.deeplearning4j.version>
 	</properties>
 
 	<modules>

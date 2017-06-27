@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-
 import org.deeplearning4j.eval.Evaluation;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
@@ -62,24 +60,6 @@ public class NeuralNetwork {
 			// evaluate performance using validation data
 			validationData.reset();			
 			evaluate(validationData);
-		}
-	}
-	
-	/** 
-	 * Train the network for the specified number of epochs. 
-	 */
-	public void trainBackup(DataSetIterator trainData, DataSetIterator validationData, int epochs) {
-		for(int epoch = 1; epoch <= epochs; epoch++) {
-			
-			// train the network using training data
-			log.info("Starting epoch {}, samples: {}", epoch, trainData.numExamples());
-			trainData.reset();
-			m_network.fit(trainData);
-			log.info("Epoch {} completed", epoch);
-			
-			// evaluate performance using validation data
-			evaluate(validationData);
-			validationData.reset();			
 		}
 	}
 	
@@ -142,20 +122,15 @@ public class NeuralNetwork {
 	 * Normalizes the image, performs recognition and returns the recognition result.
 	 */
 	public Output recognize(String imageFileName) {
-		try {
-			File imageFile = new File(imageFileName);
-			BufferedImage image = ImageIO.read(imageFile);
-			return recognize(image);
-		} catch (IOException e) {
-			throw new RuntimeException("Failed to read image: " + imageFileName, e);
-		}
+		BufferedImage image = ImageUtility.readImage(imageFileName);
+		return recognize(image);
 	}
 
 	/**
 	 * Normalizes image, performs recognition and returns the result.
 	 */
 	public Output recognize(BufferedImage image) {
-		float[] normalizeImage = normalizeImage(image);
+		float[] normalizeImage = ImageUtility.toMnistArray(image);
 
 		INDArray input = Nd4j.create(normalizeImage);
 		INDArray output = m_network.output(input);
@@ -166,18 +141,5 @@ public class NeuralNetwork {
 		}
 
 		return new Output(entries);
-	}
-
-	/**
-	 * Normalizes the image into the MNIST format (28x28 gray scale image).
-	 */
-	private float[] normalizeImage(BufferedImage image) {
-		float[] normalizedRawData;
-		try {
-			normalizedRawData = ImageUtility.transformToMnistIteratorFormat(image);
-		} catch (IOException e) {
-			throw new RuntimeException("Couldn't normalize the image", e);
-		}
-		return normalizedRawData;
 	}
 }

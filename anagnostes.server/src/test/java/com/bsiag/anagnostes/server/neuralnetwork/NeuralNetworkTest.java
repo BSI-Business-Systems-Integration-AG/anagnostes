@@ -18,6 +18,30 @@ public class NeuralNetworkTest extends ServerTest {
 	public static final String USER_HOME = System.getProperty("user.home");
 	public static final String USER_MODEL = USER_HOME + File.separator + "user_model.zip";
 	public static final String USER_COMBINED_MODEL = USER_HOME + File.separator + "user_combined_model.zip";
+	private static final String USER_TEMP_MODEL = USER_HOME + File.separator + "user_temp_model.zip";
+
+	/**
+	 * Use this test to play around with testing neural networks.
+	 */
+	@Test
+	public void buildAndTrainTempModel() {
+		NeuralNetwork model = new NeuralNetwork();
+		DataSetIterator numbersTrainData = LeNet.numbersTrainSetIterator();
+		DataSetIterator numbersValidationData = LeNet.numbersTestSetIterator();
+		int epochs = 4;
+		
+		model.train(numbersTrainData, numbersValidationData, epochs);
+		model.store(new File(USER_TEMP_MODEL));
+	}
+
+	@Test
+	public void evaluateTempModel() {
+		NeuralNetwork model = new NeuralNetwork();
+		DataSetIterator numbersTestData = new NumbersDatasetIterator(LeNet.BATCH_SIZE, false);
+		
+		model.load(new File(USER_TEMP_MODEL));
+		model.evaluate(numbersTestData);
+	}
 
 	@Test
 	@Ignore
