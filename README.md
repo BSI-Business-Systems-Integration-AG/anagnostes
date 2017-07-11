@@ -92,7 +92,9 @@ To launch the demo application first run product launcher '[webapp] dev server.l
 
 You are now ready to use the application in your browser using link http://localhost:8082/
 
-## Related Projects
+## Links
+* [DZone Blog Post](https://dzone.com/articles/machine-learning-with-deeplearning4j-and-eclipse-s)
+* [Scout Blog Post](https://www.bsi-software.com/en/scout-blog)
 * [Eclipse Scout](http://www.eclipse.org/scout/)
 * [Deeplearning4j](https://deeplearning4j.org/)
 * [Numbers](https://github.com/kensanata/numbers)
